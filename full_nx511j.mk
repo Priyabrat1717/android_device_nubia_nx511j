@@ -25,7 +25,7 @@ $(call inherit-product, device/nubia/nx511j/device.mk)
 PRODUCT_DEVICE := nx511j
 PRODUCT_NAME := full_nx511j
 PRODUCT_BRAND := NUBIA
-PRODUCT_MODEL := Z9 MINI
+PRODUCT_MODEL := Z9 mini
 PRODUCT_MANUFACTURER := NUBIA
 
 
