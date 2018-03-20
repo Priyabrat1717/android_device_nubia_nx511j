@@ -34,6 +34,7 @@ vendor/lib/libvoice-svc.so
 bin/btnvtool
 bin/hci_qcomm_init
 vendor/lib64/libbtnv.so
+vendor/lib/libbtnv.so
 
 # Camera
 bin/mm-qcamera-app
