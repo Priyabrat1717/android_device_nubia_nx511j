@@ -1,6 +1,7 @@
 
-Device configuration for ZTE Nubia Z9 Max NX512J
-=====================================
+Resurrection Remix 6.0 (Android 8.1 Oreo)
+device configuration for 
+ZTE Nubia Z9 Max NX512J
 
 Basic   | Spec Sheet
 -------:|:-------------------------
@@ -17,3 +18,5 @@ Front Camera | 8.0 MP, Sony ®IMAX179 Exmor R™ back-illuminated image, Sapphir
 Release Date | March 2015
 
 ![ZTE Nubia Z9 Max](http://static.nubia.cn/product/max/images/params/params_z9max02.jpg "ZTE Nubia Z9 Max")
+
+P.S. After "lunch", check the availability of repositories in your work directory, specified in rr.dependencies, and add them manually, if they are missing.
