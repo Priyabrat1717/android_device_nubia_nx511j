@@ -1,5 +1,5 @@
 
-Resurrection Remix 6.0 (Android 8.1 Oreo)
+Resurrection Remix 6.x (Android 8.1 Oreo)
 device configuration for 
 ZTE Nubia Z9 Mini NX511J
 =====================================
