@@ -19,7 +19,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ril.ecclist=000,08,100,101,102,110,112,118,119,120,122,911,999 \
     ro.telephony.default_network=9,9 \
     ril.subscription.types=NV,RUIM \
-    ro.telephony.ril.config=simactivation,sim2gsmonly
+    ro.telephony.ril.config=simactivation,sim2gsmonly \
+    persist.dbg.volte_avail_ovr=1 \
+    persist.dbg.vt_avail_ovr=1
 
 # RIL
 PRODUCT_COPY_FILES += \
