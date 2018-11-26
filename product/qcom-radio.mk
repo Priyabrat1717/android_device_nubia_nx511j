@@ -39,3 +39,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libcneapiclient
 
+# Telephony
+PRODUCT_PACKAGES += \
+    qti-telephony-common \
+    ims-ext-common \
+    telephony-ext
+
+PRODUCT_BOOT_JARS += \
+    telephony-ext
+
+
