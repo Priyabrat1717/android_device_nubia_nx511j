@@ -7,14 +7,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.usb.host.xml:system/vendor/etc/permissions/android.hardware.usb.host.xml \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/vendor/etc/permissions/android.hardware.usb.accessory.xml
 
-# USB ID
+#Set composition for USB
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES  += \
-    ro.usb.id.midi=90BA \
-    ro.usb.id.midi_adb=90BB \
-    ro.usb.id.mtp=F003 \
-    ro.usb.id.mtp_adb=9039 \
-    ro.usb.id.ptp=904D \
-    ro.usb.id.ptp_adb=904E \
-    ro.usb.id.ums=F000 \
-    ro.usb.id.ums_adb=9015 \
-    ro.usb.vid=05c6
+    persist.sys.usb.config=diag,serial_smd,rmnet_bam,adb
+
+#Set read only default composition for USB
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES  += \
+    ro.sys.usb.default.config=diag,serial_smd,rmnet_bam,adb

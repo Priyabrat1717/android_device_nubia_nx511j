@@ -1,6 +1,8 @@
 # Init scripts
 PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
+    init.msm.usb.configfs.rc \
+    init.qcom.usb.sh \
     init.qcom.rc \
     init.qcom.mem.sh \
     init.qcom.power.rc \
