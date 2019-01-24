@@ -9,4 +9,6 @@ PRODUCT_PACKAGES += \
     fstab.qcom \
     init.target.rc \
     tp.node.sh \
-    init.qcom.ssr.rc
+    init.qcom.ssr.rc \
+    init.bluetooth.rc \
+    init.qcom.bt.sh

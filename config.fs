@@ -54,3 +54,15 @@ mode: 0771
 user: AID_SYSTEM
 group: AID_SYSTEM
 caps: 0
+
+[vendor/etc/init/hw/init.qcom.bt.sh]
+mode:  0755
+user:  AID_BLUETOOTH
+group: AID_BLUETOOTH
+caps:  0
+
+[system/vendor/etc/init/hw/init.qcom.bt.sh]
+mode:  0755
+user:  AID_BLUETOOTH
+group: AID_BLUETOOTH
+caps:  0
