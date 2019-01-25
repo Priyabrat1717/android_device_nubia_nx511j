@@ -29,13 +29,17 @@
 #include "ProximitySensor.h"
 #include "sensors.h"
 
-#define EVENT_TYPE_PROXIMITY		ABS_DISTANCE
+#define EVENT_TYPE_PROXIMITY		REL_X
 
 #define PROXIMITY_THRESHOLD                    5.0f
 
 #define ARRAY	3
 
 /*****************************************************************************/
+
+static int gTresh1 = 2000; //initialization of auxiliary variables for the function 'indexToValue'
+static int gCal = 1023;
+static bool gNear = false;
 
 enum input_device_name {
     GENERIC_PSENSOR = 0,
@@ -226,7 +230,7 @@ int ProximitySensor::readEvents(sensors_event_t* data, int count)
 
     while (count && mInputReader.readEvent(&event)) {
         int type = event->type;
-        if (type == EV_ABS) {
+        if (type == EV_REL) {
             if (event->code == EVENT_TYPE_PROXIMITY) {
                 if (event->value != -1) {
                     // FIXME: not sure why we're getting -1 sometimes
@@ -264,40 +268,30 @@ int ProximitySensor::readEvents(sensors_event_t* data, int count)
     return numEventReceived;
 }
 
-int ProximitySensor::setDelay(int32_t, int64_t ns)
-{
-        int fd;
-        char propBuf[PROPERTY_VALUE_MAX];
-        char buf[80];
-        int len;
-
-        property_get("sensors.light.loopback", propBuf, "0");
-        if (strcmp(propBuf, "1") == 0) {
-                ALOGE("sensors.light.loopback is set");
-                return 0;
-        }
-        int delay_ms = ns / 1000000;
-        strlcpy(&input_sysfs_path[input_sysfs_path_len],
-                        SYSFS_POLL_DELAY, SYSFS_MAXLEN);
-        fd = open(input_sysfs_path, O_RDWR);
-        if (fd < 0) {
-                ALOGE("open %s failed.(%s)\n", input_sysfs_path, strerror(errno));
-                return -1;
-        }
-        snprintf(buf, sizeof(buf), "%d", delay_ms);
-        len = write(fd, buf, ssize_t(strlen(buf)+1));
-        if (len < ssize_t(strlen(buf) + 1)) {
-                ALOGE("write %s failed\n", buf);
-                close(fd);
-                return -1;
-        }
-
-        close(fd);
-        return 0;
-}
-
 float ProximitySensor::indexToValue(size_t index) const
 {
+   // stock values NEAR=3.0 cm & FAR =10.0cm
+
+      if (index > (gCal-123)) {  //when the sensor is covered, the index resets to max index value after turning the screen on/off with an error of 123
+        gCal = index;
+        gTresh1 = index;
+        gNear = true;
+        index = 3;
+    } else if (index < (gTresh1 - 70)) {  //convert FAR with an error of 70
+        gTresh1 = index;
+        gNear = false;
+        index = 10;
+    } else if (index >= (gTresh1 + 70)) {  //convert NEAR with an error of 70
+        gTresh1 = index;
+        gNear = true;
+        index = 3;
+    } else if (gNear == true) {  //Add additional checks for other cases
+        gTresh1 = index;
+        index = 3;
+    } else if (gNear == false) {
+        gTresh1 = index;
+        index = 10;
+    } 
     return index * res;
 }
 

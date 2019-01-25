@@ -18,8 +18,8 @@
 
 set -e
 
-DEVICE=kipper
-VENDOR=wileyfox
+DEVICE=nx511j
+VENDOR=nubia
 
 # Load extract_utils and do some sanity checks
 MY_DIR="${BASH_SOURCE%/*}"

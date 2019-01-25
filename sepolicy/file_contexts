@@ -1,8 +1,14 @@
-# CKTNV
-/(vendor|system/vendor)/bin/cktnvtool                                                           u:object_r:cktnv_exec:s0
+# Shell files
+/system/vendor/bin/tp\.node\.sh                     u:object_r:qti_init_shell_exec:s0
 
-# Sensors
-/sys/devices/soc\.0/78b6000\.i2c/i2c-0/0-006b/sensors(/.*)?                                     u:object_r:sensors_sysfs:s0
+#tp.node data files 
+/data/tp(/.*)?                                               u:object_r:system_data_file:s0
 
-# Touchscreen
-/sys/devices/soc\.0/78b9000\.i2c/i2c-5/5-0024/main_ttsp_core\.cyttsp4_i2c_adapter/btn_enabled   u:object_r:touchpanel_sysfs:s0
+#tp.node sysfs
+/sys/devices/soc\.0/78b9000\.i2c/i2c-5(/.*)?                 u:object_r:tpnode_sysfs:s0
+
+# Audio
+/system/etc/usb_audio_policy_configuration.xml    u:object_r:vendor_configs_file:s0
+
+#Sensors multiHAL
+/(vendor|system/vendor)/bin/hw/android\.hardware\.sensors@1\.0-service-nubia        u:object_r:hal_sensors_default_exec:s0

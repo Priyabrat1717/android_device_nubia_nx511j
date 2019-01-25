@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2012, 2014, The Linux Foundation. All rights reserved.
+# Copyright (c) 2009-2012, 2017, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,92 +25,206 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+on init
+    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
+    mount none /system/etc/usb_audio_policy_configuration.xml /vendor/etc/usb_audio_policy_configuration.xml bind
+
 on boot
+    # change file owner for factory test
+    chown system system /sys/devices/virtual/touchscreen/touchscreen_dev/firmware_version
+    chown system system /sys/devices/virtual/touchscreen/touchscreen_dev/firmware_update
+    chown system system /sys/devices/virtual/touchscreen/touchscreen_dev/calibrate
 
-    # LSM6DS0 accelerometer
-    chown system system /sys/class/sensors/lsm6ds0_accelerometer/calibrate
-    chown system system /sys/class/sensors/lsm6ds0_accelerometer/enable
-    chown system system /sys/class/sensors/lsm6ds0_accelerometer/enable_wakeup
-    chown system system /sys/class/sensors/lsm6ds0_accelerometer/flush
-    chown system system /sys/class/sensors/lsm6ds0_accelerometer/max_latency
-    chown system system /sys/class/sensors/lsm6ds0_accelerometer/poll_delay
-    chmod 0660 /sys/class/sensors/lsm6ds0_accelerometer/calibrate
-    chmod 0660 /sys/class/sensors/lsm6ds0_accelerometer/enable
-    chmod 0660 /sys/class/sensors/lsm6ds0_accelerometer/enable_wakeup
-    chmod 0660 /sys/class/sensors/lsm6ds0_accelerometer/flush
-    chmod 0660 /sys/class/sensors/lsm6ds0_accelerometer/max_latency
-    chmod 0660 /sys/class/sensors/lsm6ds0_accelerometer/poll_delay
+    #proximity sensor
+    chown system system /sys/class/proximity/proximity/chip_name
+    chown system system /sys/class/proximity/proximity/prox_check
+    chown system system /sys/class/proximity/proximity/enable
+    chown system system /sys/class/proximity/proximity/prox_init
+    chown system system /sys/class/proximity/proximity/prox_led_pluse_cnt
+    chown system system /sys/class/proximity/proximity/prox_adc_time
+    chown system system /sys/class/proximity/proximity/prox_led_strength_level
+    chown system system /sys/class/proximity/proximity/prox_debug_delay
+    chown system system /sys/class/proximity/proximity/prox_calibrate
+    chown system system /sys/class/proximity/proximity/prox_threshold_high
+    chown system system /sys/class/proximity/proximity/prox_threshold_low
+    chown system system /sys/class/proximity/proximity/prox_offset
+    chown system system /sys/class/proximity/proximity/prox_calibrate_result
+    chown system system /sys/class/proximity/proximity/prox_thres_param_high
+    chown system system /sys/class/proximity/proximity/prox_thres_param_low
+    chown system system /sys/class/proximity/proximity/prox_thres
+    chown system system /sys/class/proximity/proximity/prox_debug
+    chown system system /sys/class/proximity/proximity/prox_calibrate_start
+    chown system system /sys/class/proximity/proximity/prox_thres_max
+    chown system system /sys/class/proximity/proximity/prox_thres_min
+    chown system system /sys/class/proximity/proximity/prox_data_max
+    chown system system /sys/class/proximity/proximity/prox_manual_calibrate_threshold
+    chown system system /sys/class/proximity/proximity/prox_wakelock
+    chown system system /sys/class/proximity/proximity/irq_status
+    chown system system /sys/class/proximity/proximity/wait_time
+    chown system system /sys/class/proximity/proximity/prox_offset_cal_start
+    chown system system /sys/class/proximity/proximity/prox_offset_cal
+    chown system system /sys/class/proximity/proximity/prox_offset_cal_result
+    chown system system /sys/class/proximity/proximity/prox_data_safe_range_max
+    chown system system /sys/class/proximity/proximity/prox_data_safe_range_min
+    chown system system /sys/class/proximity/proximity/prox_offset_cal_verify
+    chown system system /sys/class/proximity/proximity/prox_calibrate_verify
 
-    # LSM6DS0 gyroscope
-    chown system system /sys/class/sensors/lsm6ds0_gyroscope/calibrate
-    chown system system /sys/class/sensors/lsm6ds0_gyroscope/enable
-    chown system system /sys/class/sensors/lsm6ds0_gyroscope/enable_wakeup
-    chown system system /sys/class/sensors/lsm6ds0_gyroscope/flush
-    chown system system /sys/class/sensors/lsm6ds0_gyroscope/max_latency
-    chown system system /sys/class/sensors/lsm6ds0_gyroscope/poll_delay
-    chmod 0660 /sys/class/sensors/lsm6ds0_gyroscope/calibrate
-    chmod 0660 /sys/class/sensors/lsm6ds0_gyroscope/enable
-    chmod 0660 /sys/class/sensors/lsm6ds0_gyroscope/enable_wakeup
-    chmod 0660 /sys/class/sensors/lsm6ds0_gyroscope/flush
-    chmod 0660 /sys/class/sensors/lsm6ds0_gyroscope/max_latency
-    chmod 0660 /sys/class/sensors/lsm6ds0_gyroscope/poll_delay
+    chmod 0444 /sys/class/proximity/proximity/chip_name
+    chmod 0444 /sys/class/proximity/proximity/prox_check
+    chmod 0644 /sys/class/proximity/proximity/enable
+    chmod 0200 /sys/class/proximity/proximity/prox_init
+    chmod 0644 /sys/class/proximity/proximity/prox_led_pluse_cnt
+    chmod 0644 /sys/class/proximity/proximity/prox_adc_time
+    chmod 0644 /sys/class/proximity/proximity/prox_led_strength_level
+    chmod 0644 /sys/class/proximity/proximity/prox_debug_delay
+    chmod 0200 /sys/class/proximity/proximity/prox_calibrate
+    chmod 0644 /sys/class/proximity/proximity/prox_threshold_high
+    chmod 0644 /sys/class/proximity/proximity/prox_threshold_low
+    chmod 0644 /sys/class/proximity/proximity/prox_offset
+    chmod 0444 /sys/class/proximity/proximity/prox_calibrate_result
+    chmod 0644 /sys/class/proximity/proximity/prox_thres_param_high
+    chmod 0644 /sys/class/proximity/proximity/prox_thres_param_low
+    chmod 0644 /sys/class/proximity/proximity/prox_thres
+    chmod 0644 /sys/class/proximity/proximity/prox_debug
+    chmod 0644 /sys/class/proximity/proximity/prox_calibrate_start
+    chmod 0444 /sys/class/proximity/proximity/prox_thres_max
+    chmod 0444 /sys/class/proximity/proximity/prox_thres_min
+    chmod 0444 /sys/class/proximity/proximity/prox_data_max
+    chmod 0444 /sys/class/proximity/proximity/prox_manual_calibrate_threshold
+    chmod 0644 /sys/class/proximity/proximity/prox_wakelock
+    chmod 0644 /sys/class/proximity/proximity/irq_status
+    chmod 0644 /sys/class/proximity/proximity/wait_time
+    chmod 0644 /sys/class/proximity/proximity/prox_offset_cal_start
+    chmod 0644 /sys/class/proximity/proximity/prox_offset_cal
+    chmod 0444 /sys/class/proximity/proximity/prox_offset_cal_result
+    chmod 0444 /sys/class/proximity/proximity/prox_data_safe_range_max
+    chmod 0444 /sys/class/proximity/proximity/prox_data_safe_range_min
+    chmod 0644 /sys/class/proximity/proximity/prox_offset_cal_verify
+    chmod 0644 /sys/class/proximity/proximity/prox_calibrate_verify
 
-    # LTR553 light
-    chown system system /sys/class/sensors/ltr553-light/calibrate
-    chown system system /sys/class/sensors/ltr553-light/enable
-    chown system system /sys/class/sensors/ltr553-light/enable_wakeup
-    chown system system /sys/class/sensors/ltr553-light/flush
-    chown system system /sys/class/sensors/ltr553-light/max_latency
-    chown system system /sys/class/sensors/ltr553-light/poll_delay
-    chmod 0660 /sys/class/sensors/ltr553-light/calibrate
-    chmod 0660 /sys/class/sensors/ltr553-light/enable
-    chmod 0660 /sys/class/sensors/ltr553-light/enable_wakeup
-    chmod 0660 /sys/class/sensors/ltr553-light/flush
-    chmod 0660 /sys/class/sensors/ltr553-light/max_latency
-    chmod 0660 /sys/class/sensors/ltr553-light/poll_delay
+    #boot sound
+    chmod 0664 /system/media/audio/ui/bootup.wav
+    chmod 0755 /system/bin/bootsound.sh
 
-    # LTR553 proximity
-    chown system system /sys/class/sensors/ltr553-proximity/calibrate
-    chown system system /sys/class/sensors/ltr553-proximity/enable
-    chown system system /sys/class/sensors/ltr553-proximity/enable_wakeup
-    chown system system /sys/class/sensors/ltr553-proximity/flush
-    chown system system /sys/class/sensors/ltr553-proximity/max_latency
-    chown system system /sys/class/sensors/ltr553-proximity/poll_delay
-    chmod 0660 /sys/class/sensors/ltr553-proximity/calibrate
-    chmod 0660 /sys/class/sensors/ltr553-proximity/enable
-    chmod 0660 /sys/class/sensors/ltr553-proximity/enable_wakeup
-    chmod 0660 /sys/class/sensors/ltr553-proximity/flush
-    chmod 0660 /sys/class/sensors/ltr553-proximity/max_latency
-    chmod 0660 /sys/class/sensors/ltr553-proximity/poll_delay
+    #light sensor
+    chown system system /sys/class/light/light/light_check
+    chown system system /sys/class/light/light/enable
+    chown system system /sys/class/light/light/delay
+    chmod 0444 /sys/class/light/light/light_check
+    chmod 0644 /sys/class/light/light/enable
+    chmod 0644 /sys/class/light/light/delay
 
-    # ST480
-    chown system system /sys/class/sensors/st480/calibrate
-    chown system system /sys/class/sensors/st480/enable
-    chown system system /sys/class/sensors/st480/enable_wakeup
-    chown system system /sys/class/sensors/st480/flush
-    chown system system /sys/class/sensors/st480/max_latency
-    chown system system /sys/class/sensors/st480/poll_delay
-    chmod 0660 /sys/class/sensors/st480/calibrate
-    chmod 0660 /sys/class/sensors/st480/enable
-    chmod 0660 /sys/class/sensors/st480/enable_wakeup
-    chmod 0660 /sys/class/sensors/st480/flush
-    chmod 0660 /sys/class/sensors/st480/max_latency
-    chmod 0660 /sys/class/sensors/st480/poll_delay
+    #compass
+    chown system system /sys/class/compass/compass/accel
+    chmod 0640 /sys/class/compass/compass/accel
 
-    # Touchscreen
-    chown root system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0024/main_ttsp_core.cyttsp4_i2c_adapter/btn_enabled
-    chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0024/main_ttsp_core.cyttsp4_i2c_adapter/btn_enabled
+    chown system system /sys/class/compass/compass/mag_check
+    chown system system /sys/class/compass/compass/enable_acc
+    chown system system /sys/class/compass/compass/enable_mag
+    chown system system /sys/class/compass/compass/enable_fusion
+    chown system system /sys/class/compass/compass/enable_ori
+    chown system system /sys/class/compass/compass/enable_unmag
+    chown system system /sys/class/compass/compass/enable_geomag
+    chown system system /sys/class/compass/compass/delay_acc
+    chown system system /sys/class/compass/compass/delay_mag
+    chown system system /sys/class/compass/compass/delay_ori
 
-    # Notification LED
-    chown system system /sys/class/leds/red/blink
-    chown system system /sys/class/leds/green/blink
-    chown system system /sys/class/leds/blue/blink
-    chown system system /sys/class/leds/red/led_time
-    chown system system /sys/class/leds/green/led_time
-    chown system system /sys/class/leds/blue/led_time
+    chmod 0444 /sys/class/compass/compass/mag_check
+    chmod 0644 /sys/class/compass/compass/enable_acc
+    chmod 0644 /sys/class/compass/compass/enable_mag
+    chmod 0644 /sys/class/compass/compass/enable_fusion
+    chmod 0644 /sys/class/compass/compass/enable_ori
+    chmod 0644 /sys/class/compass/compass/enable_unmag
+    chmod 0644 /sys/class/compass/compass/enable_geomag
+    chmod 0644 /sys/class/compass/compass/delay_acc
+    chmod 0644 /sys/class/compass/compass/delay_mag
+    chmod 0644 /sys/class/compass/compass/delay_ori
 
-service cktnv /system/vendor/bin/cktnvtool
+    #acc
+    chown system system /sys/class/acc/acc/acc_check
+    chown system system /sys/class/acc/acc/enable
+    chown system system /sys/class/acc/acc/delay
+
+    chmod 0444 /sys/class/acc/acc/acc_check
+    chmod 0644 /sys/class/acc/acc/enable
+    chmod 0644 /sys/class/acc/acc/delay
+
+    chown system system /sys/class/acc/acc/range
+    chown system system /sys/class/acc/acc/enable_device
+    chown system system /sys/class/acc/acc/pollrate_ms
+
+    chmod 0644 /sys/class/acc/acc/range
+    chmod 0644 /sys/class/acc/acc/enable_device
+    chmod 0644 /sys/class/acc/acc/pollrate_ms
+
+    #gyro
+    chown system system /sys/class/gyro/gyro/gyro_check
+    chown system system /sys/class/gyro/gyro/range
+    chown system system /sys/class/gyro/gyro/enable_device
+    chown system system /sys/class/gyro/gyro/pollrate_ms
+
+    chmod 0444 /sys/class/gyro/gyro/gyro_check
+    chmod 0644 /sys/class/gyro/gyro/range
+    chmod 0644 /sys/class/gyro/gyro/enable_device
+    chmod 0644 /sys/class/gyro/gyro/pollrate_ms
+
+    mkdir /persist/proxdata 0755 system system
+    chown system system /persist/proxdata
+    chmod 0755 /persist/proxdata
+
+    #hall_device
+    chown system system /sys/class/hall_device/hall_device/hall_check
+    chown system system /sys/class/hall_device/hall_device/enable
+    chmod 0444 /sys/class/hall_device/hall_device/hall_check
+    chmod 0644 /sys/class/hall_device/hall_device/enable
+
+    #WIP enable hall here
+    write /sys/class/hall_device/hall_device/enable 1
+
+    #test_result
+    chown system system /persist/test_result
+    chmod 0644 /persist/test_result
+
+    #audio_test_related
+    mkdir /persist/mics 0755 system system
+    chown system system /persist/mics
+    chmod 0755 /persist/mics
+    mkdir /persist/audio 0755 system system
+    chown system system /persist/audio
+    chmod 0755 /persist/audio
+
+    #lcd-backlight 
+    chown system system /sys/class/leds/lcd-backlight/max_brightness
+    chmod 0666 /sys/class/leds/lcd-backlight/max_brightness
+
+    # Enable writing to led blink node from userspace
+    chown system system /sys/class/leds/keyboard-backlight/brightness
+    chown system system /sys/class/leds/lcd-backlight/brightness
+    chown system system /sys/class/leds/jogball-backlight/brightness
+
+    # Enable writing to led blink node from userspace
+    chown system system /sys/class/leds/nubia_led/blink_mode
+    chmod 0666 /sys/class/leds/nubia_led/blink_mode
+    chown system system /sys/class/leds/nubia_led/outn
+    chmod 0666 /sys/class/leds/nubia_led/outn
+    chown system system /sys/class/leds/nubia_led/fade_parameter
+    chmod 0666 /sys/class/leds/nubia_led/fade_parameter
+    chown system system /sys/class/leds/nubia_led/grade_parameter
+    chmod 0666 /sys/class/leds/nubia_led/grade_parameter
+
+    #button-backlight
+    chown system system /sys/class/leds/button-backlight/brightness
+    chmod 0666 /sys/class/leds/button-backlight/brightness
+
+service tp-node /system/vendor/bin/tp.node.sh
+    class main
     user root
     group root
-    class late_start
     oneshot
+
+service lowi-server /system/vendor/bin/lowi-server
+    class late_start
+    user gps
+    group gps net_admin wifi inet oem_2901
+    disabled
+

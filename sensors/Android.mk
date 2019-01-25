@@ -2,18 +2,6 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := sensors.$(TARGET_BOARD_PLATFORM)
-LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_MODULE_TAGS := optional
-LOCAL_VENDOR_MODULE := true
-
-LOCAL_C_INCLUDES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
-LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
-
-LOCAL_C_INCLUDES += \
-    external/libxml2/include \
-    external/icu/icu4c/source/common
-
 LOCAL_SRC_FILES := \
     sensors.cpp \
     SensorBase.cpp \
@@ -22,41 +10,91 @@ LOCAL_SRC_FILES := \
     CompassSensor.cpp \
     Accelerometer.cpp \
     Gyroscope.cpp \
-    PressureSensor.cpp \
     InputEventReader.cpp \
     CalibrationManager.cpp \
     NativeSensorManager.cpp \
     VirtualSensor.cpp \
-    sensors_XML.cpp
+    sensors_XML.cpp \
+    SignificantMotion.cpp
+
+LOCAL_CFLAGS += -DLOG_TAG=\"Sensors\"
+
+LOCAL_C_INCLUDES := \
+    external/libxml2/include \
+    external/icu/icu4c/source/common
+
+LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_SHARED_LIBRARIES := liblog libcutils libdl libxml2 libutils
+
+LOCAL_MODULE := sensors.nubia
+LOCAL_MODULE_TAGS := optional
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_VENDOR_MODULE := true
+
+
+# Export calibration library needed dependency headers
+LOCAL_COPY_HEADERS_TO := sensors/inc
+LOCAL_COPY_HEADERS := \
+    CalibrationModule.h \
+    sensors_extension.h \
+    sensors.h
 
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := libcalmodule_common
-
 LOCAL_SRC_FILES := \
-    algo/common/common_wrapper.c
+    algo/common/common_wrapper.c \
+    algo/common/compass/AKFS_AOC.c \
+    algo/common/compass/AKFS_Device.c \
+    algo/common/compass/AKFS_Direction.c \
+    algo/common/compass/AKFS_VNorm.c
 
-LOCAL_STATIC_LIBRARIES := libst480
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_MODULE_TAGS := optional
-LOCAL_PROPRIETARY_MODULE := true
 
-LOCAL_MULTILIB := 64
+ifdef TARGET_2ND_ARCH
+LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib
+LOCAL_MODULE_PATH_64 := $(TARGET_OUT_VENDOR)/lib64
+else
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
+endif
 
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := libst480
-LOCAL_MODULE_OWNER := senodia
+LOCAL_MODULE := calmodule.cfg
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_CLASS := STATIC_LIBRARIES
-LOCAL_MODULE_SUFFIX := .a
-LOCAL_SRC_FILES := algo/common/st480/lib64/libst480.a
-LOCAL_MULTILIB := 64
+LOCAL_MODULE_CLASS := ETC
+LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_ETC)
+LOCAL_SRC_FILES := calmodule.cfg
 
 include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := sensors.$(TARGET_BOARD_PLATFORM)
+
+LOCAL_MODULE_RELATIVE_PATH := hw
+LOCAL_PROPRIETARY_MODULE := true
+LOCAL_VENDOR_MODULE := true
+
+LOCAL_CFLAGS := -DLOG_TAG=\"MultiHal\"
+
+LOCAL_SRC_FILES := \
+    multihal.cpp \
+    SensorEventQueue.cpp \
+
+LOCAL_SHARED_LIBRARIES := \
+    libcutils \
+    libdl \
+    liblog \
+    libutils \
+
+LOCAL_STRIP_MODULE := false
+
+include $(BUILD_SHARED_LIBRARY)

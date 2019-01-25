@@ -15,6 +15,6 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_DEVICE),kipper)
+ifeq ($(TARGET_DEVICE),nx511j)
 include $(call all-makefiles-under,$(LOCAL_PATH))
 endif

@@ -32,7 +32,7 @@
 #define GYRO_INPUT_DEV_NAME 	"gyroscope"
 
 #define FETCH_FULL_EVENT_BEFORE_RETURN 	1
-#define IGNORE_EVENT_TIME 				20000000
+#define IGNORE_EVENT_TIME 				350000000
 
 #define	EVENT_TYPE_GYRO_X	ABS_RX
 #define	EVENT_TYPE_GYRO_Y	ABS_RY
@@ -134,7 +134,7 @@ int GyroSensor::setInitialState() {
 		mPendingEvent.data[1] = value * CONVERT_GYRO_Y;
 		value = absinfo_z.value;
 		mPendingEvent.data[2] = value * CONVERT_GYRO_Z;
-		mHasPendingEvent = false;
+		mHasPendingEvent = true;
 	}
 	return 0;
 }
@@ -145,6 +145,7 @@ int GyroSensor::enable(int32_t, int en) {
 	property_get("sensors.gyro.loopback", propBuf, "0");
 	if (strcmp(propBuf, "1") == 0) {
 		mEnabled = flags;
+		mEnabledTime = 0;
 		ALOGE("sensors.gyro.loopback is set");
 		return 0;
 	}
@@ -167,7 +168,6 @@ int GyroSensor::enable(int32_t, int en) {
 			err = write(fd, buf, sizeof(buf));
 			close(fd);
 			mEnabled = flags;
-			setInitialState();
 			return 0;
 		}
 		return -1;

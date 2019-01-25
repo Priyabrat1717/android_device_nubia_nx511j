@@ -18,8 +18,8 @@
 
 set -e
 
-DEVICE=kipper
-VENDOR=wileyfox
+DEVICE=nx511j
+VENDOR=nubia
 
 INITIAL_COPYRIGHT_YEAR=2015
 
@@ -43,13 +43,6 @@ setup_vendor "$DEVICE" "$VENDOR" "$LINEAGE_ROOT"
 write_headers
 
 write_makefiles "$MY_DIR"/proprietary-files.txt
-
-# Blobs for TWRP data decryption
-cat << EOF >> "$BOARDMK"
-ifeq (\$(WITH_TWRP),true)
-TARGET_RECOVERY_DEVICE_DIRS += vendor/$VENDOR/$DEVICE/proprietary
-endif
-EOF
 
 # Finish
 write_footers
