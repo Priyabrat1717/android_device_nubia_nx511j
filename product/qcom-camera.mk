@@ -1,8 +1,18 @@
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider@2.4-impl-legacy \
-    camera.device@1.0-impl \
+    camera.msm8916 \
+    libmm-qcamera \
     Snap
+
+PRODUCT_PACKAGES += \
+    android.hardware.camera.provider@2.4-impl \
+    camera.device@1.0-impl
+
+# Camera
+#PRODUCT_PACKAGES += \
+#    android.hardware.camera.provider@2.4-impl-legacy \
+#    camera.device@1.0-impl \
+#    Snap
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -12,8 +22,8 @@ PRODUCT_COPY_FILES += \
 # Properties
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.camera.cpp.duplication=false \
-    persist.camera.hal.debug.mask=0 \
-    camera2.portability.force_api=1
+    persist.camera.hal.debug.mask=0 # \
+#    camera2.portability.force_api=1
 
 # Make the external camera provider ignore internal cameras
 PRODUCT_COPY_FILES += \
