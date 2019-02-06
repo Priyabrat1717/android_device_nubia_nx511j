@@ -5,8 +5,8 @@ PRODUCT_PACKAGES += \
     libcalmodule_akm \
     libcalmodule_common \
     libcalmodule_gyroscope \
-    sensors.$(TARGET_DEVICE) \
-    sensors.$(TARGET_BOARD_PLATFORM)
+    sensors.nubia \
+    sensors.msm8916
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/_hals.conf:system/vendor/etc/sensors/_hals.conf
