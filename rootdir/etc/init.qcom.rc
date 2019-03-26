@@ -72,8 +72,9 @@ on post-fs-data
 
     # Create folders for mm-qcamera-daemon
     mkdir /data/fdAlbum 0770 camera camera
-    mkdir /data/misc/camera 0770 camera camera
     mkdir /data/vendor/camera 0770 camera camera
+    mkdir /data/vendor/qcam 0770 camera camera
+    mkdir /data/misc/camera 0770 camera camera
 
     # Create directory used by the DASH client
     mkdir /data/misc/dash 0770 media audio
@@ -345,13 +346,19 @@ service poweroffcharge /sbin/poweroffcharge
 
 #start camera server as daemon
 service qcamerasvr /system/vendor/bin/mm-qcamera-daemon
-    class late_start
+    class main
     user camera
     group camera system inet input graphics
     writepid /dev/cpuset/camera-daemon/tasks
 
+on property:init.svc.media=restarting
+    restart qcamerasvr
+
+ on property:init.svc.servicemanager=restarting
+    restart qcamerasvr
+
 on property:sys.boot_completed=1
-    restart cameraserver
+    restart mediaserver
 
 # Allow usb charging to be disabled peristently
 on property:persist.usb.chgdisabled=1
